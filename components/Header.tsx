@@ -10,7 +10,11 @@ const Header = () => {
         className="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between items-center flex-1 bg-black 
         px-4 md:px-20 py-6 md:py-8 shadow-lg shadow-gray-600"
       >
-        <h2 className="text-neutral-200 text-transparent bg-gradient-to-b bg-clip-text from-lime-50 to-lime-500 hover:scale-125 transition-all text-3xl">
+        <h2
+          className="text-neutral-200 text-transparent 
+        bg-gradient-to-b bg-clip-text from-lime-50 to-lime-500 hover:scale-125 
+        transition-all text-3xl"
+        >
           tRelloW
         </h2>
 
@@ -41,8 +45,11 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="flex justify-center items-center px-5 py-5 w-full">
-        <p className="flex justify-center items-center text-sm font-light shadow-2xl shadow-gray-500 rounded-2xl p-5 pr-5 italic bg-white md:w-3/5">
+      <div className="flex justify-center items-center p-3 md:p-5 w-full">
+        <p
+          className="flex justify-center items-center text-sm font-light shadow-2xl
+         shadow-gray-500 rounded-2xl p-2 md:p-5 italic bg-white w-full md:w-3/5"
+        >
           <UserCircleIcon className="inline-block h-10 w-10 mr-1 text-red-300" />
           GPT is summarising your tasks for the day ...
         </p>

@@ -13,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-gradient-to-br from-lime-50 to-lime-100 h-screen">
+        {children}
+      </body>
     </html>
   );
 }
