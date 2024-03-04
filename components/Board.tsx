@@ -23,20 +23,35 @@ const Board = () => {
     getBoard();
   }, [getBoard]);
 
-  const handleOnDragEnd = (result: DropResult) => {};
+  const handleOnDragEnd = (result: DropResult) => {
+    const { destination, source, type } = result;
+
+    //check if card gragged outside of board
+    if (!destination) return;
+
+    // handle column drag
+    if (type === "column") {
+      console.log(board);
+      const entries = Array.from(board.columns.entries());
+      console.log(entries);
+      const [removed] = entries.splice(source.index, 1);
+      console.log(removed);
+    }
+  };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Droppable droppableId="board" direction="horizontal" type="column">
         {(provided) => (
           <div
-            className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-7xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-7xl mx-auto px-3"
             {...provided.droppableProps}
             ref={provided.innerRef}
           >
             {Array.from(board.columns.entries()).map(([id, col], index) => (
               <Column key={id} id={id} todos={col.todos} index={index} />
             ))}
+            {provided.placeholder}
           </div>
         )}
       </Droppable>
