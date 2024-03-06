@@ -14,9 +14,10 @@ const Board = () => {
   // const getBoard = useBoardStore((state) => state.getBoard);
   // const getBoard = useBoardStore((state) => state.getBoard);
   // use this:
-  const [board, getBoard] = useBoardStore((state) => [
+  const [board, getBoard, setBoardState] = useBoardStore((state) => [
     state.board,
     state.getBoard,
+    state.setBoardState,
   ]);
 
   useEffect(() => {
@@ -31,11 +32,11 @@ const Board = () => {
 
     // handle column drag
     if (type === "column") {
-      console.log(board);
       const entries = Array.from(board.columns.entries());
-      console.log(entries);
       const [removed] = entries.splice(source.index, 1);
-      console.log(removed);
+      entries.splice(destination.index, 0, removed);
+      const rearrangedColumns = new Map(entries);
+      setBoardState({ ...board, columns: rearrangedColumns });
     }
   };
 
