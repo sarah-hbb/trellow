@@ -8,18 +8,23 @@ interface BoardStateType {
   getBoard: () => void;
   setBoardState: (board: Board) => void;
   updateTodoInDB: (todo: Todo, columnId: TypedColumn)=>void;
+  searchString: string;
+  setSearchString: (searchString: string)=>void;
 }
 
 export const useBoardStore = create<BoardStateType>((set) => ({
   board: {
     columns: new Map<TypedColumn, ColumnType>(),
   },
+  searchString: "",
+  setSearchString: (searchString)=>set({searchString}),
+  
   getBoard: async () => {
     const board = await getTodosGroupedByColumn();
     set({ board });
   },
   setBoardState : (board)=> {set({board})},
-  updateTodoInDB:async (todo, columnId)=>{
+  updateTodoInDB: async (todo, columnId)=>{
     await databases.updateDocument(
       process.env.NEXT_PUBLIC_DATABASE_ID!,
       process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
@@ -29,5 +34,6 @@ export const useBoardStore = create<BoardStateType>((set) => ({
         status: columnId,
       }
     );
-  }
+  },
+  
 }));

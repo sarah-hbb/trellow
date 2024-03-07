@@ -3,6 +3,7 @@ import React from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import TodoCard from "./TodoCard";
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
+import { useBoardStore } from "@/store/BoardStore";
 
 type ColumnProps = {
   id: TypedColumn;
@@ -17,6 +18,10 @@ const idToColumnName: { [key in TypedColumn]: string } = {
 };
 
 const Column = ({ id, todos, index }: ColumnProps) => {
+  const [searchString, setSearchString] = useBoardStore((state) => [
+    state.searchString,
+    state.setSearchString,
+  ]);
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
@@ -38,28 +43,44 @@ const Column = ({ id, todos, index }: ColumnProps) => {
                 <h2 className="flex justify-between items-center p-2 font-bold">
                   {idToColumnName[id]}
                   <span className="p-2 text-gray-500 bg-gray-300 rounded-full text-sm font-normal">
-                    {todos.length}
+                    {!searchString
+                      ? todos.length
+                      : todos.filter((todo) =>
+                          todo.title
+                            .toLocaleLowerCase()
+                            .includes(searchString.toLocaleLowerCase())
+                        ).length}
                   </span>
                 </h2>
                 <div className="space-y-2">
-                  {todos.map((todo, index) => (
-                    <Draggable
-                      key={todo.$id}
-                      draggableId={todo.$id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <TodoCard
-                          todo={todo}
-                          index={index}
-                          id={id}
-                          innerRef={provided.innerRef}
-                          draggableProps={provided.draggableProps}
-                          dragHandleProps={provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
+                  {todos.map((todo, index) => {
+                    if (
+                      searchString &&
+                      !todo.title
+                        .toLowerCase()
+                        .includes(searchString.toLocaleLowerCase())
+                    )
+                      return null;
+
+                    return (
+                      <Draggable
+                        key={todo.$id}
+                        draggableId={todo.$id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <TodoCard
+                            todo={todo}
+                            index={index}
+                            id={id}
+                            innerRef={provided.innerRef}
+                            draggableProps={provided.draggableProps}
+                            dragHandleProps={provided.dragHandleProps}
+                          />
+                        )}
+                      </Draggable>
+                    );
+                  })}
                   {provided.placeholder}
                   <div className="flex justify-end items-end p-2">
                     <button className="text-green-500 hover:text-green-600 ">
