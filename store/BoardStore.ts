@@ -1,20 +1,33 @@
 import { create } from "zustand";
-import { Board, Column, TypedColumn } from "@/typings";
+import { Board, ColumnType, TypedColumn,Todo } from "@/typings";
 import { getTodosGroupedByColumn } from "@/lib/getTodosGroupedByColumn";
+import { databases } from "@/appwrite";
 
 interface BoardStateType {
   board: Board;
   getBoard: () => void;
   setBoardState: (board: Board) => void;
+  updateTodoInDB: (todo: Todo, columnId: TypedColumn)=>void;
 }
 
 export const useBoardStore = create<BoardStateType>((set) => ({
   board: {
-    columns: new Map<TypedColumn, Column>(),
+    columns: new Map<TypedColumn, ColumnType>(),
   },
   getBoard: async () => {
     const board = await getTodosGroupedByColumn();
     set({ board });
   },
-  setBoardState : (board)=> {set({board})}
+  setBoardState : (board)=> {set({board})},
+  updateTodoInDB:async (todo, columnId)=>{
+    await databases.updateDocument(
+      process.env.NEXT_PUBLIC_DATABASE_ID!,
+      process.env.NEXT_PUBLIC_TODOS_COLLECTION_ID!,
+      todo.$id,
+      {
+        title: todo.title,
+        status: columnId,
+      }
+    );
+  }
 }));

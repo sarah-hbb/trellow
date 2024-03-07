@@ -6,12 +6,12 @@ export interface Board {
 
 type TypedColumn = "todo" | "inprogress" | "done";
 
-interface Column {
+export interface ColumnType {
   id: TypedColumn;
   todos: Todo[];
 }
 
-interface Todo {
+export interface Todo {
   $id: string;
   $createdAt: string;
   title: string;
