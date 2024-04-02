@@ -11,6 +11,12 @@ interface BoardStateType {
   searchString: string;
   setSearchString: (searchString: string) => void;
   deleteTask: (teaskIndex: number, todo: Todo, id: TypedColumn) => void;
+  newTaskInput: string;
+  setNewTaskInput: (input: string) => void;
+  newTaskType: TypedColumn;
+  setNewTaskType: (columnId: TypedColumn) => void;
+  image: File | null;
+  setImage: (image: File | null) => void;
 }
 
 export const useBoardStore = create<BoardStateType>((set, get) => ({
@@ -18,6 +24,9 @@ export const useBoardStore = create<BoardStateType>((set, get) => ({
     columns: new Map<TypedColumn, ColumnType>(),
   },
   searchString: "",
+  newTaskInput: "",
+  newTaskType: "todo",
+  image: null,
   setSearchString: (searchString) => set({ searchString }),
 
   getBoard: async () => {
@@ -52,4 +61,8 @@ export const useBoardStore = create<BoardStateType>((set, get) => ({
       todo.$id
     );
   },
+
+  setNewTaskInput: (taskInput: string) => set({ newTaskInput: taskInput }),
+  setNewTaskType: (columnId: TypedColumn) => set({ newTaskType: columnId }),
+  setImage: (image: File | null) => set({ image }),
 }));

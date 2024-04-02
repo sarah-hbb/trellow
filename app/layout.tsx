@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Modal from "@/components/Modal";
 
 export const metadata: Metadata = {
   title: "tRelloW",
@@ -15,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-gradient-to-b from-white to-lime-50 h-screen">
         {children}
+        <Modal />
       </body>
     </html>
   );
