@@ -33,7 +33,6 @@ const TaskRadioGroup = () => {
   return (
     <div className="w-full py-5">
       <div className="mx-auto w-full max-w-md">
-        <div>{newTaskType}</div>
         <RadioGroup
           value={newTaskType}
           onChange={(e) => {
@@ -71,7 +70,7 @@ const TaskRadioGroup = () => {
                               checked ? "text-white" : "text-gray-900"
                             }`}
                           >
-                            {`${type.name} ${checked} ${active}`}
+                            {type.name}
                           </RadioGroup.Label>
                           <RadioGroup.Description
                             as="span"
